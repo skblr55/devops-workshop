@@ -1,0 +1,31 @@
+---
+  - hosts: jenkins-master
+    become: true
+    tasks:
+    - name: adding jenkins key
+      apt_key:
+       url: https://ftp-master.debian.org/keys/archive-key-6.0.asc
+       state: present 
+
+    - name: add jenkins repo
+      apt_repository:
+       repo: 'deb https://pkg.jenkins.io/debian-stable binary'
+       state: present
+    
+    - name: install dep packages
+      package: openjdk-17-jre
+        state: present
+
+    - name: install jenkins
+      package: 
+        name: jenkins
+        state: present 
+
+    - name: jenkins service start
+      service:
+        name: jenkins
+        state: started
+        enabled: yes 
+
+
+       
